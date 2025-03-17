@@ -2,7 +2,10 @@
 //import {http} from '@/utils'
 
 import {http} from './request'
-
+import {setToken,getToken,clearToken} from './token'
 export {
-    http
+    http,
+    setToken,
+    getToken,
+    clearToken
 }
