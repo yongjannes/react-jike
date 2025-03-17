@@ -3,12 +3,16 @@ import { Card, Form, Input, Button } from 'antd'
 import logo from '@/assets/logo.png'
 
 const Login = () => {
+    // 点击登录按钮时触发 参数values即是表单输入数据
+const onFinish = formValue => {
+    console.log(formValue)
+  }
     return (
         <div className="login">
             <Card className="login-container">
                 <img className="login-logo" src={logo} alt="" />
                 {/* 登录表单 */}
-                <Form validateTrigger={['onBlur']}>
+                <Form validateTrigger={['onBlur']} onFinish={ onFinish }>
                     <Form.Item name="mobile" rules={[
                         { required: true, message: '请输入手机号' },
                         {
