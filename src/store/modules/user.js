@@ -16,13 +16,25 @@ const userStore = createSlice({
   }
 })
 
+
 // 解构出actionCreater
 const { setToken } = userStore.actions
 
 // 获取reducer函数
 const userReducer = userStore.reducer
 
+// 异步方法封装
+const fetchLogin = (loginForm) => {
+    return async (dispatch) => {
+        //1. 发送异步请求
+      const res = await http.post('/authorizations', loginForm)
+      //2. 提交同步action进行token的存入
+      dispatch(setToken(res.data.token))
+    }
+  }
 
-export { setToken }
+
+
+export { setToken,fetchLogin }
 
 export default userReducer
