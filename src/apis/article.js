@@ -9,3 +9,13 @@ export function getChannelAPI () {
     method: 'GET'
   })
 }
+
+// 2. 提交文章表单
+
+export function createArticleAPI (data) {
+    return http({
+      url: '/mp/articles?draft=false',
+      method: 'POST',
+      data
+    })
+  }
