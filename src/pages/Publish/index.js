@@ -16,7 +16,7 @@ import './index.scss'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import { useState } from 'react'
-import { createArticleAPI, getArticleById } from '@/apis/article'
+import { createArticleAPI, getArticleById, updateArticleAPI } from '@/apis/article'
 import { useChannel } from '@/hooks/useChannel'
 import { useEffect } from 'react'
 
@@ -27,22 +27,37 @@ const Publish = () => {
     // 频道列表
     const { channels } = useChannel()
 
-    // 发布文章
-  const onFinish = async (formValue) => {
-    if (imageType !== imageList.length) return message.warning('图片类型和数量不一致')
+ // 发布文章
+ const onFinish = async (formValue) => {
     const { channel_id, content, title } = formValue
-    const params = {
+    const formatUrl = (list) => {
+      return list.map(item => {
+        if (item.response) {
+          return item.response.data.url
+        } else {
+          return item.url
+        }
+      })
+    }
+    const data = {
       channel_id,
       content,
       title,
       type: imageType,
       cover: {
         type: imageType,
-        images: imageList.map(item => item.response.data.url)
+        images: formatUrl(imageList)
       }
     }
-    await createArticleAPI(params)
-    message.success('发布文章成功')
+    if (imageType !== imageList.length) return message.warning('图片类型和数量不一致')
+    if (articleId) {
+      // 编辑
+      await updateArticleAPI(data)
+    } else {
+      // 新增
+      await createArticleAPI(data)
+    }
+    message.success(`${articleId ? '编辑' : '发布'}文章成功`)
   }
 
     // 上传图片

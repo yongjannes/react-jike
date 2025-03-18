@@ -47,3 +47,14 @@ export function getArticleById (id) {
     })
   }
   
+
+  // 更新文章表单
+
+export function updateArticleAPI (data) {
+    return http({
+      url: `/mp/articles/${data.id}?draft=false`,
+      method: 'PUT',
+      data
+    })
+  }
+  
