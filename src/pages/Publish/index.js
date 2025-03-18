@@ -35,22 +35,22 @@ const Publish = () => {
     }, [])
 
     // 发布文章
-    const onFinish = async (formValue) => {
-        const { channel_id, content, title } = formValue
-        const params = {
-            channel_id,
-            content,
-            title,
-            type: 1,
-            cover: {
-                type: 1,
-                images: []
-            }
-        }
-        await createArticleAPI(params)
-        message.success('发布文章成功')
-
+  const onFinish = async (formValue) => {
+    if (imageType !== imageList.length) return message.warning('图片类型和数量不一致')
+    const { channel_id, content, title } = formValue
+    const params = {
+      channel_id,
+      content,
+      title,
+      type: imageType,
+      cover: {
+        type: imageType,
+        images: imageList.map(item => item.response.data.url)
+      }
     }
+    await createArticleAPI(params)
+    message.success('发布文章成功')
+  }
 
     // 上传图片
   const [imageList, setImageList] = useState([])
