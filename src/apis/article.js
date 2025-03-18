@@ -38,4 +38,12 @@ export function delArticleAPI (id) {
       method: 'DELETE'
     })
   }
+
+  // 获取文章详情
+
+export function getArticleById (id) {
+    return http({
+      url: `/mp/articles/${id}`
+    })
+  }
   
