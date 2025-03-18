@@ -15,24 +15,16 @@ import { Link } from 'react-router-dom'
 import './index.scss'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import { useState, useEffect } from 'react'
-import { createArticleAPI, getChannelAPI } from '@/apis/article'
+import { useState } from 'react'
+import { createArticleAPI } from '@/apis/article'
+import { useChannel } from '@/hooks/useChannel'
 
 
 const { Option } = Select
 
 const Publish = () => {
     // 频道列表
-    const [channels, setChannels] = useState([])
-
-    // 调用接口
-    useEffect(() => {
-        async function fetchChannels() {
-            const res = await getChannelAPI()
-            setChannels(res.data.channels)
-        }
-        fetchChannels()
-    }, [])
+    const { channels } = useChannel()
 
     // 发布文章
   const onFinish = async (formValue) => {
