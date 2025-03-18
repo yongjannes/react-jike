@@ -67,8 +67,11 @@ const Publish = () => {
      async function getArticle () {
        const res = await getArticleById(articleId)
        const { cover, ...formValue } = res.data
-       // 设置表单数据
-       form.setFieldsValue({ ...formValue, type: cover.type })
+        // 1. 回填表单数据
+    form.setFieldsValue({ ...formValue, type: cover.type })
+    // 2. 回填封面图片
+    setImageType(cover.type) // 封面类型
+    setImageList(cover.images.map(url => ({ url }))) // 封面list
      }
      if (articleId) {
        // 拉取数据回显
@@ -132,6 +135,7 @@ const Publish = () => {
                              action={'http://geek.itheima.net/v1_0/upload'}
                              onChange={onUploadChange}
                              maxCount={imageType}
+                             fileList={imageList}
                         >
                             <div style={{ marginTop: 8 }}>
                                 <PlusOutlined />
