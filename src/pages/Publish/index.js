@@ -35,20 +35,27 @@ const Publish = () => {
     }, [])
 
     // 发布文章
-const onFinish = async (formValue) => {
-    const { channel_id, content, title } = formValue
-    const params = {
-      channel_id,
-      content,
-      title,
-      type: 1,
-      cover: {
-        type: 1,
-        images: []
-      }
+    const onFinish = async (formValue) => {
+        const { channel_id, content, title } = formValue
+        const params = {
+            channel_id,
+            content,
+            title,
+            type: 1,
+            cover: {
+                type: 1,
+                images: []
+            }
+        }
+        await createArticleAPI(params)
+        message.success('发布文章成功')
+
     }
-    await createArticleAPI(params)
-    message.success('发布文章成功')
+
+    // 上传图片
+  const [imageList, setImageList] = useState([])
+  const onUploadChange = (info) => {
+      setImageList(info.fileList)
   }
     return (
         <div className="publish">
@@ -86,6 +93,29 @@ const onFinish = async (formValue) => {
                                 </Option>
                             ))}
                         </Select>
+                    </Form.Item>
+                    <Form.Item label="封面">
+                        <Form.Item name="type">
+                            <Radio.Group>
+                                <Radio value={1}>单图</Radio>
+                                <Radio value={3}>三图</Radio>
+                                <Radio value={0}>无图</Radio>
+                            </Radio.Group>
+                        </Form.Item>
+                        {/* listType：图片展示类型 
+                            showUploadList：是否展示上传列表
+                        */}
+                        <Upload
+                             name="image"
+                             listType="picture-card"
+                             showUploadList
+                             action={'http://geek.itheima.net/v1_0/upload'}
+                             onChange={onUploadChange}
+                        >
+                            <div style={{ marginTop: 8 }}>
+                                <PlusOutlined />
+                            </div>
+                        </Upload>
                     </Form.Item>
                     <Form.Item
                         label="内容"
