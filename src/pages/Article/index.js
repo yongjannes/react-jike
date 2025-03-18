@@ -131,6 +131,14 @@ const Article = () => {
     // 4. 重新拉取文章列表 + 渲染table逻辑重复的 - 复用
     // reqData依赖项发生变化 重复执行副作用函数 
   }
+
+  const onpageChange = (page) => {
+    // 拿到当前页参数 修改params 引起接口更新
+    setReqData({
+      ...reqData,
+      page
+    })
+}
   return (
     <div>
       <Card
@@ -174,10 +182,12 @@ const Article = () => {
         </Form>
       </Card>
        <Card title={`根据筛选条件共查询到 ${count} 条结果：`}>
-      <Table
-        dataSource={list}
-        columns={columns}
-      />
+       <Table rowKey="id" columns={columns} dataSource={list} pagination={{
+      current: reqData.page,
+      pageSize: reqData.per_page,
+      onChange: onpageChange,
+      total: count
+    }} />
    </Card>
     </div>
   )
